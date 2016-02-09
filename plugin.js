@@ -35,7 +35,14 @@ CKFinder.addPlugin( 'cropresize', function( api ) {
                     alert( "You have entered: " + value );
                     return true;
                 }*/
-              },
+            },
+            onShow: function () {
+                var document = this.getElement().getDocument();
+                var frame = document.getById('iframe_imageNotation');
+                var url = CKFinder.getPluginPath('cropresize') + 'dialog.php?fileUrl=' + api.getSelectedFile().getUrl() + '&fileName=' + api.getSelectedFile().name + '&folderName=' + api.getSelectedFile().folder;
+
+                frame.setAttribute('src', url);
+            },
             contents : [
                   {
                       id : 'tab1',
@@ -65,7 +72,9 @@ CKFinder.addPlugin( 'cropresize', function( api ) {
            return;
         }
 
-        api.openDialog('cropresize');
+        api.openDialog('cropresize', function($dialog) {
+            $dialog.setTitle(file.name);
+        });
 
     },
     function(file )
